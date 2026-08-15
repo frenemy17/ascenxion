@@ -18,6 +18,8 @@ Build a premium, high-conversion website for tech service agency "Ascenxion" (pr
 ## Implemented
 - 2026-08-15 (earlier sessions): FastAPI backend with POST /api/inquiries (MongoDB `inquiries` collection), Lenis cinematic hero zoom, awwwards story rail, glass navbar, work grid, capabilities list, contact form.
 - 2026-08-15 (this session): Conversion-focused copy ("Make growth repeatable", Automate/Deploy/Convert offer strip). Premium visual pass: deeper orange shader blooms (hero + sections), Apple-style glass (pill navbar, hero telemetry cards, form inputs, offer cards), orange rim/glow hover states on project cards, glowing submit button, orange selection/scrollbar, mobile styles for new components.
+- 2026-08-15 (later): Removed hero status card + circular CTA; scroll-linked hero copy; cursor parallax (glass panel, focus ring, orbits, artwork); CSS scroll reveals.
+- 2026-08-15 (Editions hero): Rebuilt hero as Shopify-Editions-style centered glass index panel (masked line-by-line headline reveal via framer-motion, index links with roman numerals I–IV), floating neon-orange accents (orb, ring, prism) with mouse parallax, Creation of Adam scroll-zoom retained and panel scales/fades with zoom. Sections renumbered as manifesto chapters (Chapter 01–04). Slow editorial marquee strip between statement and work. All section reveals migrated to framer-motion (`Reveal` component, whileInView + whileHover). Added framer-motion dependency.
 
 ## Architecture
 - Frontend: React + craco, Lenis, lucide-react, axios. Single-page in src/App.js, styles in src/App.css (cascade-override blocks).
