@@ -33,6 +33,18 @@ const Home = () => {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", company: "", project: "" });
   const lenisRef = useRef(null);
+  const hybridRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({ target: hybridRef, offset: ["start start", "end end"] });
+  const heroOpacity = useTransform(scrollYProgress, [0.85, 1], [1, 0]);
+
+  // The 2nd page text scales up from the dead center of the screen
+  const statementOpacity = useTransform(scrollYProgress, [0.64, 0.85], [0, 1]);
+  const statementScale = useTransform(scrollYProgress, [0.64, 0.85], [0.1, 1]);
+  const statementFilter = useTransform(scrollYProgress, [0.64, 0.85], ["blur(20px)", "blur(0px)"]);
+
+
+
   useEffect(() => {
     const lenis = new Lenis({ lerp: 0.09, smoothWheel: true, syncTouch: true });
     lenisRef.current = lenis;
@@ -48,18 +60,16 @@ const Home = () => {
     };
     frame = requestAnimationFrame(raf);
     const onMouse = (e) => { mouse.tx = (e.clientX / window.innerWidth - 0.5) * 2; mouse.ty = (e.clientY / window.innerHeight - 0.5) * 2; };
-    const onScroll = () => {
-      const hero = document.getElementById("hero-immersion");
-      if (!hero) return;
-      const progress = Math.min(Math.max(-hero.getBoundingClientRect().top / (hero.offsetHeight - window.innerHeight), 0), 1);
-      document.documentElement.style.setProperty("--hero-progress", progress.toFixed(3));
-      scrollState.progress = progress;
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
+
+    const unsubscribe = scrollYProgress.onChange(v => {
+      const heroP = Math.min(Math.max(v, 0), 1);
+      document.documentElement.style.setProperty("--hero-progress", heroP.toFixed(3));
+      scrollState.progress = heroP;
+    });
+
     window.addEventListener("mousemove", onMouse, { passive: true });
-    onScroll();
-    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("mousemove", onMouse); cancelAnimationFrame(frame); lenis.destroy(); lenisRef.current = null; };
-  }, []);
+    return () => { window.removeEventListener("mousemove", onMouse); cancelAnimationFrame(frame); lenis.destroy(); lenisRef.current = null; unsubscribe(); };
+  }, [scrollYProgress]);
 
   const submitInquiry = async (event) => {
     event.preventDefault();
@@ -71,8 +81,53 @@ const Home = () => {
   return (
     <main id="top">
       <nav className="nav" data-testid="site-navigation"><button className="brand" onClick={() => goTo("top")} data-testid="brand-home">ASCENXION<span>®</span></button><div className={`nav-links ${menuOpen ? "open" : ""}`}><button onClick={() => goTo("work")} data-testid="nav-work">Work</button><button onClick={() => goTo("capabilities")} data-testid="nav-capabilities">Capabilities</button><button onClick={() => goTo("contact")} data-testid="nav-contact">Contact</button></div><button className="nav-cta" onClick={() => goTo("contact")} data-testid="nav-strategy-button">Map my growth system <ArrowUpRight size={15} /></button><button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} data-testid="mobile-menu-button">{menuOpen ? <X /> : <Menu />}</button></nav>
-      <section className="hero-immersion" id="hero-immersion" data-testid="hero-section"><div className="hero-stage"><HeroScene /><div className="hero-grain"></div><div className="hero-overlay"></div><div className="hero-headline"><p className="eyebrow" data-testid="hero-eyebrow">Digital growth systems / 001 — 2026</p><h1 data-testid="hero-heading">Make growth<br /><em>repeatable.</em></h1><p className="hero-sub" data-testid="hero-description">We combine AI automation, deployed agents, and high-converting websites to turn ambitious businesses into faster-moving companies.</p></div><div className="hero-foot"><span data-testid="hero-scroll-label">Scroll to turn the artifact</span><span>© ASCENXION 2026</span><span>Built for the next</span></div></div></section>
-      <section className="statement" id="process" data-testid="statement-section"><ZReveal><p className="eyebrow">Chapter 01 — The growth gap</p><h2 data-testid="statement-heading">Stop adding<br />more work.<br /><em>Build leverage.</em></h2><p className="statement-copy">Your next stage of growth should not depend on more tabs, more tools, or more people chasing the same bottlenecks. Ascenxion designs the digital systems that make momentum compound.</p><div className="offer-strip" data-testid="offer-strip"><div><span>01 / AUTOMATE</span><strong>Give your team back its time.</strong><small>AI workflows that remove repetitive work and keep revenue moving.</small></div><div><span>02 / DEPLOY</span><strong>Put an agent on the front line.</strong><small>Purpose-built AI agents that support customers, sales, and operations.</small></div><div><span>03 / CONVERT</span><strong>Make every visit count.</strong><small>High-class websites engineered for clarity, trust, and action.</small></div></div><div className="story-line" data-testid="story-line"><div className="story-step active"><span>01</span><strong>Find the friction</strong><small>See where time, attention, and revenue are leaking.</small></div><div className="story-step"><span>02</span><strong>Build the leverage</strong><small>Turn the bottleneck into a system that works.</small></div><div className="story-step"><span>03</span><strong>Scale the signal</strong><small>Make the advantage visible to every customer.</small></div></div><div className="stat-row"><div><strong>24<span>+</span></strong><small>Systems shipped</small></div><div><strong>08</strong><small>Industries transformed</small></div><div><strong>∞</strong><small>Room to scale</small></div></div></ZReveal></section>
+
+      {/* Hybrid Stage: Z-scrolls the Hero and the 2nd Page (Statement Intro) */}
+      <div ref={hybridRef} style={{ height: '240vh', position: 'relative' }}>
+        <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', perspective: '1200px' }}>
+
+          <motion.div style={{ opacity: heroOpacity, position: 'absolute', inset: 0 }}>
+            <section className="hero-immersion" id="hero-immersion" data-testid="hero-section" style={{ height: '100vh' }}>
+              <div className="hero-stage">
+                <HeroScene />
+                <div className="hero-grain"></div>
+                <div className="hero-overlay"></div>
+                <div className="hero-foot">
+                  <span data-testid="hero-scroll-label">Scroll to turn the artifact</span>
+                  <span>© ASCENXION 2026</span>
+                  <span>Built for the next</span>
+                </div>
+              </div>
+            </section>
+          </motion.div>
+
+          <motion.div style={{ scale: statementScale, opacity: statementOpacity, filter: statementFilter, position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            {/* ========================================== */}
+            {/* TUNE TEXT X-AXIS */}
+            {/* Adjust this value to push the text left or right! */}
+            {/* Examples: "8vw", "15vw", "50px", "0px" */}
+            {/* ========================================== */}
+            <div className="hero-headline" style={{ position: 'relative', top: 'auto', left: "25vw", transform: 'none', width: 'auto', pointerEvents: 'none' }}>
+              <p className="eyebrow" data-testid="hero-eyebrow">Digital growth systems / 001 — 2026</p>
+              <h1 data-testid="hero-heading">Make growth<br /><em>repeatable.</em></h1>
+              <p className="hero-sub" data-testid="hero-description">We combine AI automation, deployed agents, and high-converting websites to turn ambitious businesses into faster-moving companies.</p>
+            </div>
+          </motion.div>
+
+
+        </div>
+        <div id="process" style={{ position: 'absolute', bottom: 0 }}></div>
+      </div>
+
+      {/* Y-Scroll continues naturally below the sticky stage */}
+      <section className="statement" style={{ paddingTop: '80px' }}>
+        <ZReveal>
+          <div className="offer-strip" data-testid="offer-strip"><div><span>01 / AUTOMATE</span><strong>Give your team back its time.</strong><small>AI workflows that remove repetitive work and keep revenue moving.</small></div><div><span>02 / DEPLOY</span><strong>Put an agent on the front line.</strong><small>Purpose-built AI agents that support customers, sales, and operations.</small></div><div><span>03 / CONVERT</span><strong>Make every visit count.</strong><small>High-class websites engineered for clarity, trust, and action.</small></div></div>
+          <div className="story-line" data-testid="story-line"><div className="story-step active"><span>01</span><strong>Find the friction</strong><small>See where time, attention, and revenue are leaking.</small></div><div className="story-step"><span>02</span><strong>Build the leverage</strong><small>Turn the bottleneck into a system that works.</small></div><div className="story-step"><span>03</span><strong>Scale the signal</strong><small>Make the advantage visible to every customer.</small></div></div>
+          <div className="stat-row"><div><strong>24<span>+</span></strong><small>Systems shipped</small></div><div><strong>08</strong><small>Industries transformed</small></div><div><strong>∞</strong><small>Room to scale</small></div></div>
+        </ZReveal>
+      </section>
+
       <div className="marquee-strip" data-testid="marquee-strip"><div className="marquee-track">{[...marqueeWords, ...marqueeWords].map((word, i) => <span key={i} className={i % 2 ? "mq-alt" : ""}>{word}<i>✦</i></span>)}</div></div>
       <section className="work-section" id="work" data-testid="work-section"><ZReveal className="section-head"><div><p className="eyebrow">Chapter 02 — Selected systems</p><h2>Work that<br /><em>moves</em> markets.</h2></div><p className="section-note">A small selection of the systems we've designed for teams thinking in decades, not quarters.</p></ZReveal><ZReveal><div className="project-grid">{projects.map((project, index) => <article className={`project-card card-${index + 1}`} key={project.number} data-testid={`project-card-${index + 1}`}><div className="project-image" style={{ backgroundImage: `url(${project.image})` }}></div><div className="project-shade"></div><div className="project-meta"><span>{project.number} / 2026</span><ArrowUpRight size={18} /></div><div className="project-title"><p>{project.type}</p><h3>{project.title}</h3><strong>{project.metric}</strong><small>{project.detail}</small></div></article>)}</div></ZReveal></section>
       <section className="capabilities" id="capabilities" data-testid="capabilities-section"><ZReveal className="cap-head"><p className="eyebrow">Chapter 03 — What we build</p><h2>Intelligence,<br /><em>engineered.</em></h2></ZReveal><ZReveal><div className="service-list">{services.map((service, index) => <div className="service" key={service} data-testid={`service-item-${index + 1}`}><span>0{index + 1}</span><h3>{service}</h3><ArrowUpRight size={20} /></div>)}</div></ZReveal></section>
