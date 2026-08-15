@@ -46,8 +46,8 @@ const Artifact = () => {
       group.current.rotation.y = state.mouse.x * 0.05;
       group.current.rotation.x = state.mouse.y * -0.05;
     }
-    state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, 7.2 - p * 3.4, 0.08);
-    state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, p * 0.45, 0.08);
+    state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, 7.2 - p * 5.6, 0.08);
+    state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, p * p * 1.05, 0.08);
     state.camera.lookAt(0, 0, 0);
     if (glow.current) glow.current.intensity = 30 + Math.sin(t * 2) * 8 + p * 40;
   });
