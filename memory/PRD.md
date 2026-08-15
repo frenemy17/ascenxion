@@ -1,44 +1,40 @@
-# Ascenxion Agency Website PRD
+# PRD — Ascenxion Agency Website
 
-## Original problem statement
-Build a premium, high-conversion website for Ascenxion, an international AI service agency delivering production AI workflows, autonomous agents, websites, and chatbots. The hero should use a hand/connection image with a scroll-driven zoom-to-reveal feel, supported by polished concept case studies, strong animation, and a short inquiry form.
+## Original Problem Statement
+Build a premium, high-conversion website for tech service agency "Ascenxion" (production-level AI workflows, AI agents, high-converting websites, chatbots). Immersive 3D-feel hero using the "Creation of Adam" image that starts zoomed out and zooms in on scroll (Lenis smooth scroll) to reveal the next section. Dark mood-board aesthetic with orange glow accents, glassmorphism, awwwards-style story flow. Target: international clients. Desktop-first, responsive mobile.
 
-## Architecture decisions
-- React single-page marketing experience with CSS-driven responsive immersion and smooth anchor navigation.
-- FastAPI POST /api/inquiries endpoint backed by the existing MongoDB configuration.
-- Remote editorial imagery and editable project data kept in the frontend for fast case-study iteration.
-- Desktop-first composition with simplified, non-overflowing mobile layouts.
+## User Personas
+- International founders/executives evaluating an AI/web agency
+- Referral visitors checking credibility via project showcase
+
+## Core Requirements (static)
+- Cinematic scroll-zoom hero (Creation of Adam asset: gs5gc1wx_image.png)
+- Lenis smooth scrolling, premium dark theme, orange shader glow
+- 3–4 project showcase cards
+- Capabilities/services section
+- Contact inquiry form persisted to MongoDB
+- Responsive mobile layout
 
 ## Implemented
-- Ascenxion dark luxury-tech visual system with orange accent, serif italic contrast, DM Sans/DM Mono typography, atmospheric image overlays, hover states, and scroll zoom.
-- Hero, positioning statement, proof metrics, four concept case studies, capabilities list, contact form, email CTA, and footer.
-- Working inquiry persistence endpoint with validation and success state.
-- Verified desktop/mobile live flows, no horizontal overflow, and successful production build.
+- 2026-08-15 (earlier sessions): FastAPI backend with POST /api/inquiries (MongoDB `inquiries` collection), Lenis cinematic hero zoom, awwwards story rail, glass navbar, work grid, capabilities list, contact form.
+- 2026-08-15 (this session): Conversion-focused copy ("Make growth repeatable", Automate/Deploy/Convert offer strip). Premium visual pass: deeper orange shader blooms (hero + sections), Apple-style glass (pill navbar, hero telemetry cards, form inputs, offer cards), orange rim/glow hover states on project cards, glowing submit button, orange selection/scrollbar, mobile styles for new components.
 
-## Prioritized backlog
-- P0: Replace concept case-study copy and metrics with approved client material.
-- P1: Connect Book a Strategy Call to a scheduling provider or availability flow.
-- P1: Add project detail pages and richer case-study media.
-- P2: Add motion library refinement for scroll choreography and reduced-motion accessibility pass.
+## Architecture
+- Frontend: React + craco, Lenis, lucide-react, axios. Single-page in src/App.js, styles in src/App.css (cascade-override blocks).
+- Backend: FastAPI server.py, /api prefix, Motor async MongoDB (MONGO_URL/DB_NAME from .env).
+- Key API: POST /api/inquiries {name, email, company, project}
 
-## Next tasks
-- Add a real calendar booking flow.
-- Add analytics events for CTA clicks and inquiry submissions.
-- Add richer project storytelling and client proof.
+## Backlog
+- P0: Replace placeholder project cards (Aetheris/Vortex/NeuralCore/Synthetix metrics are MOCKED) with real work, logos, testimonials.
+- P1: Scroll-triggered section reveal animations (GSAP ScrollTrigger) for statement/work sections.
+- P1: Cursor parallax on hero glass panels (pointer depth).
+- P2: CTA/inquiry conversion tracking.
+- P2: Case-study detail pages per project.
 
-## Cinematic hero iteration
-- Replaced hero artwork with the exact uploaded Creation of Adam reinterpretation (digital pixel hand meeting realistic hand).
-- Added Lenis smooth scrolling, 245vh pinned hero stage, progress-driven zoom, orange fingertip focus, orbit rings, animated grain, and glassmorphic telemetry cards.
-- Added responsive mobile treatment with simplified cards and preserved navigation/form flow.
-- Verified with desktop and mobile regression checks; no mocked APIs.
+## Next Tasks
+1. Collect real project data/testimonials from user and swap into work grid.
+2. Add scroll-reveal animation pass.
+3. Add pointer parallax to hero glass cards.
 
-## Creative backlog
-- P1: Add a second scroll chapter where the fingertip spark morphs into the Ascenxion services grid.
-- P1: Add pointer-reactive parallax to the glass panels and focus glow.
-- P2: Add reduced-motion choreography and an optional soundless ambient visual mode.
-
-## Awwwards visual iteration
-- Reworked the fixed navbar into a rounded glassmorphic panel with blur, saturation, inner highlight, orange active rule, and hover line.
-- Removed the visible inner fingertip dot while keeping the atmospheric focus ring shifted left.
-- Added a three-step narrative rail: See the signal, Shape the system, Move the world.
-- Verified navigation, cards, services, inquiry flow, email CTA, and responsive overflow after the edit.
+## Testing Notes
+- Verified 2026-08-15: POST /api/inquiries via curl (200, valid body); form submit end-to-end in browser shows success state; hero zoom, offer strip, glass components, and mobile (390px) layout screenshot-checked.
