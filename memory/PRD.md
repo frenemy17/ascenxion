@@ -36,3 +36,9 @@ Build a premium, high-conversion website for Ascenxion, an international AI serv
 - P1: Add a second scroll chapter where the fingertip spark morphs into the Ascenxion services grid.
 - P1: Add pointer-reactive parallax to the glass panels and focus glow.
 - P2: Add reduced-motion choreography and an optional soundless ambient visual mode.
+
+## Awwwards visual iteration
+- Reworked the fixed navbar into a rounded glassmorphic panel with blur, saturation, inner highlight, orange active rule, and hover line.
+- Removed the visible inner fingertip dot while keeping the atmospheric focus ring shifted left.
+- Added a three-step narrative rail: See the signal, Shape the system, Move the world.
+- Verified navigation, cards, services, inquiry flow, email CTA, and responsive overflow after the edit.
