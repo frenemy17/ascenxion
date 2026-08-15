@@ -25,3 +25,14 @@ Build a premium, high-conversion website for Ascenxion, an international AI serv
 - Add a real calendar booking flow.
 - Add analytics events for CTA clicks and inquiry submissions.
 - Add richer project storytelling and client proof.
+
+## Cinematic hero iteration
+- Replaced hero artwork with the exact uploaded Creation of Adam reinterpretation (digital pixel hand meeting realistic hand).
+- Added Lenis smooth scrolling, 245vh pinned hero stage, progress-driven zoom, orange fingertip focus, orbit rings, animated grain, and glassmorphic telemetry cards.
+- Added responsive mobile treatment with simplified cards and preserved navigation/form flow.
+- Verified with desktop and mobile regression checks; no mocked APIs.
+
+## Creative backlog
+- P1: Add a second scroll chapter where the fingertip spark morphs into the Ascenxion services grid.
+- P1: Add pointer-reactive parallax to the glass panels and focus glow.
+- P2: Add reduced-motion choreography and an optional soundless ambient visual mode.
