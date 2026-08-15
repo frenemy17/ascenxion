@@ -1,0 +1,97 @@
+{
+  "agency_name": "Ascenxion",
+  "tagline": "Architecting Production-Grade AI Workflows & Autonomous Agents",
+  "archetype": "LUXURY & PERFORMANCE TECH",
+  "typography": {
+    "heading": "Geist Mono / DM Mono",
+    "body": "DM Sans",
+    "weights": {
+      "light": "font-light",
+      "normal": "font-normal",
+      "medium": "font-medium",
+      "bold": "font-bold",
+      "black": "font-black"
+    }
+  },
+  "colors": {
+    "background": "#0B0C10",
+    "surface": "#13151D",
+    "surface_elevated": "#1C1F2E",
+    "border": "rgba(255, 255, 255, 0.08)",
+    "primary": "#3B82F6",
+    "accent_cyan": "#00F2FE",
+    "accent_electric": "#4FACFE",
+    "text_main": "#F8FAFC",
+    "text_muted": "#94A3B8"
+  },
+  "visual_enhancers": {
+    "noise_overlay": true,
+    "glow_effects": "radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.15), transparent 70%)",
+    "border_radius": "rounded-xl"
+  },
+  "hero_immersion": {
+    "description": "Scroll-driven zoom-to-reveal transition with hands and futuristic connection imagery",
+    "image_url": "https://images.unsplash.com/photo-1675551366434-327dd8eb4ff0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNDR8MHwxfHNlYXJjaHwzfHxmdXR1cmlzdGljJTIwaGFuZHMlMjB0b3VjaGluZyUyMGFpJTIwbmVvbiUyMGZ1dHVyaXN0aWMlMjBjb25uZWN0aW9ufGVufDB8fHx8MTc4Njc3MTQwMXww&ixlib=rb-4.1.0&q=85"
+  },
+  "image_urls": {
+    "hero_hands": "https://images.unsplash.com/photo-1675551366434-327dd8eb4ff0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNDR8MHwxfHNlYXJjaHwzfHxmdXR1cmlzdGljJTIwaGFuZHMlMjB0b3VjaGluZyUyMGFpJTIwbmVvbiUyMGZ1dHVyaXN0aWMlMjBjb25uZWN0aW9ufGVufDB8fHx8MTc4Njc3MTQwMXww&ixlib=rb-4.1.0&q=85",
+    "case_study_1": "https://images.unsplash.com/photo-1775993347227-b583df6c7b9b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHwxfHxhaSUyMGFnZW50JTIwbmV1cmFsJTIwbmV0d29yayUyMGFic3RyYWN0JTIwZGFyayUyMGx1eHVyeXxlbnwwfHx8fDE3ODY3NzE0MDB8MA&ixlib=rb-4.1.0&q=85",
+    "case_study_2": "https://images.unsplash.com/photo-1784941078871-2b2a7c2e722f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHwzfHxhaSUyMGFnZW50JTIwbmV1cmFsJTIwbmV0d29yayUyMGFic3RyYWN0JTIwZGFyayUyMGx1eHVyeXxlbnwwfHx8fDE3ODY3NzE0MDB8MA&ixlib=rb-4.1.0&q=85",
+    "case_study_3": "https://images.unsplash.com/photo-1771226281605-f1e505ade901?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHwyfHxhaSUyMGFnZW50JTIwbmV1cmFsJTIwbmV0d29yayUyMGFic3RyYWN0JTIwZGFyayUyMGx1eHVyeXxlbnwwfHx8fDE3ODY3NzE0MDB8MA&ixlib=rb-4.1.0&q=85",
+    "workspace": "https://images.unsplash.com/photo-1559136555-9303baea8ebd?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHwyfHxmdXR1cmlzdGljJTIwb2ZmaWNlJTIwdGVjaCUyMGFnZW5jeSUyMG1vZGVybiUyMHdvcmtzcGFjZXxlbnwwfHx8fDE3ODY3NzE0MDB8MA&ixlib=rb-4.1.0&q=85"
+  },
+  "featured_work": [
+    {
+      "id": "project-1",
+      "title": "Aetheris Autonomous Logistics AI",
+      "client": "Global Supply Chain Inc.",
+      "metric": "84% Reduction in Manual Dispatch Latency",
+      "summary": "Production-grade multi-agent LLM workflow orchestrating cross-border customs and autonomous freight routing in real time."
+    },
+    {
+      "id": "project-2",
+      "title": "Vortex Enterprise Knowledge Engine",
+      "client": "Fintech Horizon Group",
+      "metric": "12M+ Documents Indexed & Queried Sub-100ms",
+      "summary": "Secure localized RAG pipeline with custom guardrails and autonomous compliance auditing agents."
+    },
+    {
+      "id": "project-3",
+      "title": "NeuralCore Omnichannel Concierge",
+      "client": "SaaS Titan Enterprise",
+      "metric": "3.8x Conversion Lift on Complex Technical Sales",
+      "summary": "Generative voice and text workflow agents integrated directly into CRM and codebase repositories for automated resolution."
+    },
+    {
+      "id": "project-4",
+      "title": "Synthetix Biopharma R&D Copilot",
+      "client": "Helix Therapeutics",
+      "metric": "6x Acceleration in Assay Synthesis Protocols",
+      "summary": "Customized domain-specific AI agent cluster processing protein folding simulations and laboratory journal synthesis."
+    }
+  ],
+  "services": [
+    {
+      "title": "Production AI Workflows",
+      "description": "Enterprise-grade orchestration pipelines using LangGraph, Temporal, and custom DAGs ensuring 99.9% uptime and zero hallucination drift."
+    },
+    {
+      "title": "Autonomous AI Agents",
+      "description": "Self-healing worker agents capable of complex multi-step reasoning, API execution, and autonomous decision loops."
+    },
+    {
+      "title": "AI-Driven Web Architecture",
+      "description": "High-conversion, lightning-fast digital experiences infused with generative UI, contextual embeddings, and real-time personalization."
+    },
+    {
+      "title": "Cognitive Chatbots & Voice",
+      "description": "Sub-second voice and chat interfaces trained on proprietary knowledge bases with enterprise-grade data privacy."
+    }
+  ],
+  "universal_guidelines": [
+    "Always include data-testid on interactive and informational elements",
+    "Never use pure black #000000 or complete transparent backgrounds for headers/overlays",
+    "Ensure high contrast ratios APCA compliant for dark mode",
+    "Use generous padding p-8 or p-12 and asymmetric bento layouts"
+  ]
+}
