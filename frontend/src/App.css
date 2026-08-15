@@ -137,7 +137,8 @@ body{background:radial-gradient(1200px 700px at 82% -10%,rgba(255,99,51,.10),tra
 .hero-immersion .hero-overlay{background:radial-gradient(ellipse at 50% 45%,transparent 30%,rgba(6,7,10,.55) 78%,rgba(6,7,10,.92) 100%)}
 .hero-stage::before{left:50%;top:50%;width:52vw;height:52vw;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,99,51,.14),transparent 62%)}
 .hero-stage::after{left:50%;top:50%;width:34vw;height:34vw;opacity:calc(.3 + var(--hero-progress)*.5)}
-.hero-headline{position:absolute;z-index:5;left:8vw;top:50%;max-width:660px;pointer-events:none;transform:translateY(calc(-52% + var(--hero-progress)*-70px));opacity:calc(1 - var(--hero-progress)*1.2)}
+.hero-headline{position:absolute;z-index:5;left:8vw;top:50%;max-width:660px;pointer-events:none;opacity:calc(min(max((var(--hero-progress) - .18)*2.6,0),1)*(1 - min(max((var(--hero-progress) - .8)*6,0),1)));transform:translateY(calc(-50% + (1 - min(max((var(--hero-progress) - .18)*2.6,0),1))*52px))}
+.hero-foot{opacity:calc(1 - min(var(--hero-progress)*3,1))}
 .hero-headline h1{font-size:clamp(52px,7vw,116px);line-height:.92;letter-spacing:-.065em;margin:0;font-weight:500;text-shadow:0 4px 60px rgba(0,0,0,.5)}
 .hero-headline h1 em{font-family:Georgia,serif;font-weight:400;color:var(--orange);letter-spacing:-.065em}
 .hero-headline .hero-sub{color:#c9c8c4;max-width:360px;line-height:1.55;font-size:15px;margin-top:28px;text-shadow:0 2px 30px rgba(0,0,0,.6)}

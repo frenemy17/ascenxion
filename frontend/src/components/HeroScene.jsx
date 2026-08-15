@@ -7,29 +7,6 @@ export const scrollState = { progress: 0 };
 
 const MODEL_URL = "/the_creation_of_adam.glb";
 
-const makeDotTexture = () => {
-  const c = document.createElement("canvas");
-  c.width = c.height = 256;
-  const ctx = c.getContext("2d");
-  ctx.fillStyle = "#210e06";
-  ctx.fillRect(0, 0, 256, 256);
-  ctx.fillStyle = "#ffb18a";
-  const step = 40;
-  for (let y = step / 2; y < 256; y += step) {
-    for (let x = step / 2; x < 256; x += step) {
-      ctx.beginPath();
-      ctx.arc(x, y, 9, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
-  const tex = new THREE.CanvasTexture(c);
-  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-  tex.repeat.set(3, 3);
-  tex.flipY = false;
-  tex.colorSpace = THREE.SRGBColorSpace;
-  return tex;
-};
-
 const AdamModel = ({ rig }) => {
   const { scene } = useGLTF(MODEL_URL);
   useLayoutEffect(() => {
@@ -42,28 +19,6 @@ const AdamModel = ({ rig }) => {
       const sep = centerOf(handLeft).sub(centerOf(handRight));
       rig.current = { handRight, handLeft, baseR: handRight.position.clone(), baseL: handLeft.position.clone(), sep };
     }
-    const dot = makeDotTexture();
-    if (handRight) handRight.traverse((child) => {
-      if (child.isMesh && child.material) {
-        child.material = child.material.clone();
-        child.material.map = dot;
-        child.material.emissiveMap = dot;
-        child.material.emissive = new THREE.Color("#ff6333");
-        child.material.emissiveIntensity = 0.55;
-        child.material.metalness = 0.1;
-        child.material.roughness = 0.75;
-        child.material.needsUpdate = true;
-      }
-    });
-    if (handLeft) handLeft.traverse((child) => {
-      if (child.isMesh && child.material) {
-        child.material = child.material.clone();
-        child.material.metalness = 0.25;
-        child.material.roughness = 0.55;
-        child.material.envMapIntensity = 1.1;
-        child.material.needsUpdate = true;
-      }
-    });
   }, [scene, rig]);
   return (
     <Center>
