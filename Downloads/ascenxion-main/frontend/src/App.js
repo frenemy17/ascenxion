@@ -38,12 +38,13 @@ const Home = () => {
 
   const { scrollYProgress } = useScroll({ target: hybridRef, offset: ["start start", "end end"] });
   // The 2nd page text scales up from the dead center of the screen
-  // Wait for hands to fade out (by 0.5), then scale text up from 0.5 to 0.85
-  const statementOpacity = useTransform(scrollYProgress, [0.5, 0.75], [0, 1]);
-  const statementScale = useTransform(scrollYProgress, [0.5, 0.85], [0.1, 1]);
-  const statementFilter = useTransform(scrollYProgress, [0.5, 0.75], ["blur(20px)", "blur(0px)"]);
+  // Text starts pushing through at 0.2, finishes scaling by 0.6 to give plenty of rest time
+  const statementOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0, 1]);
+  const statementScale = useTransform(scrollYProgress, [0.2, 0.6], [0.1, 1]);
+  const statementFilter = useTransform(scrollYProgress, [0.2, 0.5], ["blur(20px)", "blur(0px)"]);
 
-  const heroOpacity = useTransform(scrollYProgress, [0.35, 0.5], [1, 0]);
+  // Hands fade out starting at 0.4 (so text overlaps them) and finish by 0.7
+  const heroOpacity = useTransform(scrollYProgress, [0.4, 0.7], [1, 0]);
 
   useEffect(() => {
     const lenis = new Lenis({ lerp: 0.09, smoothWheel: true, syncTouch: true });
