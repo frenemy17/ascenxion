@@ -85,41 +85,54 @@ const Artifact = () => {
   const group = useRef();
   const glow = useRef();
   const rig = useRef(null);
+  // Internal smoothed progress — bridges Lenis updates to 60fps render
+  const smoothP = useRef(0);
+
   useFrame((state) => {
-    const p = scrollState.progress;
+    const rawP = scrollState.progress;
     const t = state.clock.elapsedTime;
+
+    // Smooth the scroll progress at render-rate for buttery frames
+    // 0.25 = tight enough to feel simultaneous, soft enough to kill micro-jitter
+    smoothP.current += (rawP - smoothP.current) * 0.25;
+    const p = smoothP.current;
+
+    // ── HANDS: close FAST in the first ~65% of scroll ──
     if (rig.current) {
       const { handRight, handLeft, baseR, baseL, sep } = rig.current;
-      const spread = 0.45 * Math.max(0, 1 - (p / 0.8));
+      // Hands fully close by p ≈ 0.65 — remapped so you SEE the closing motion
+      const handP = Math.min(p / 0.65, 1);
+      const easedHand = handP * handP * (3 - 2 * handP); // smoothstep
+      const spread = 0.45 * (1 - easedHand);
       handRight.position.copy(baseR).addScaledVector(sep, -spread * 0.5);
       handLeft.position.copy(baseL).addScaledVector(sep, spread * 0.5);
-      
-      // ==========================================
-      // TUNE SEPARATION PATH (SWOOP)
-      // ==========================================
-      // Positive number makes the Right Hand drop DOWN (bottom-right) 
-      // and Left Hand fly UP (top-left) when they are far apart.
-      const verticalSwoop = 0.3; 
-      
+
+      // Vertical swoop — hands converge diagonally
+      const verticalSwoop = 0.3;
       handLeft.position.y -= spread * verticalSwoop;
       handRight.position.y += spread * verticalSwoop;
-      // ==========================================
     }
-    if (group.current) {
-      group.current.rotation.y = state.mouse.x * 0.05;
-      group.current.rotation.x = state.mouse.y * -0.05;
-    }
-    state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, 7.5 - p * 8.5, 0.08);
-    state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, 0, 0.08);
+
+    // ── CAMERA: zooms simultaneously, full range ──
+    const easedCam = p * p * (3 - 2 * p); // smoothstep over full 0→1
+    const cameraStart = 7.5;
+    const cameraEnd = -1.5;
+    state.camera.position.z = cameraStart + (cameraEnd - cameraStart) * easedCam;
+    state.camera.position.y = 0;
     state.camera.lookAt(0, 0, -20);
-        const cameraSpeed = 9; 
-    // ==========================================
-    state.camera.position.z = THREE.MathUtils.lerp(state.camera.position.z, 7.5 - p * cameraSpeed, 0.08);
+
+    // Subtle mouse parallax
+    if (group.current) {
+      group.current.rotation.y += (state.mouse.x * 0.04 - group.current.rotation.y) * 0.1;
+      group.current.rotation.x += (state.mouse.y * -0.04 - group.current.rotation.x) * 0.1;
+    }
+
     if (glow.current) glow.current.intensity = 30 + Math.sin(t * 2) * 8 + p * 40;
   });
+
   return (
     <group ref={group}>
-      <Float speed={1.3} rotationIntensity={0} floatIntensity={0.45}>
+      <Float speed={1.3} rotationIntensity={0} floatIntensity={0.08}>
         <AdamModel rig={rig} />
       </Float>
       <pointLight ref={glow} position={[0, 0.4, 1.4]} intensity={30} distance={9} color="#ff5a1f" />

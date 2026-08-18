@@ -37,17 +37,17 @@ const Home = () => {
   const hybridRef = useRef(null);
 
   const { scrollYProgress } = useScroll({ target: hybridRef, offset: ["start start", "end end"] });
-  // The 2nd page text scales up from the dead center of the screen
-  // Text starts pushing through at 0.2, finishes scaling by 0.6 to give plenty of rest time
-  const statementOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0, 1]);
-  const statementScale = useTransform(scrollYProgress, [0.2, 0.6], [0.1, 1]);
-  const statementFilter = useTransform(scrollYProgress, [0.2, 0.5], ["blur(20px)", "blur(0px)"]);
 
-  // Hands fade out starting at 0.4 (so text overlaps them) and finish by 0.7
-  const heroOpacity = useTransform(scrollYProgress, [0.4, 0.7], [1, 0]);
+  // Hero text zooms in from Z-depth as hands close (starts exactly when hands are near camera)
+  // 4-point keyframes: hold at start → transition 0.60–0.80 → hold at end
+  const statementOpacity = useTransform(scrollYProgress, [0, 0.60, 0.80, 1], [0, 0, 1, 1]);
+  const statementScale = useTransform(scrollYProgress, [0, 0.60, 0.80, 1], [0.6, 0.6, 1, 1]);
+  const statementZ = useTransform(scrollYProgress, [0, 0.60, 0.80, 1], [-400, -400, 0, 0]);
+  // Removed filter: blur() because WebKit/Blink has a known bug where it snapshots 3D transformed elements 
+  // as a blurry bitmap and never re-rasterizes them to be sharp. This is what caused the blurry/faded text!
 
   useEffect(() => {
-    const lenis = new Lenis({ lerp: 0.09, smoothWheel: true, syncTouch: true });
+    const lenis = new Lenis({ lerp: 0.12, smoothWheel: true, syncTouch: true, wheelMultiplier: 1.0 });
     lenisRef.current = lenis;
     let frame;
     const mouse = { tx: 0, ty: 0, x: 0, y: 0 };
@@ -97,30 +97,42 @@ const Home = () => {
         </GlassEffect>
       </div>
 
-      {/* Cinematic Sequence: 1. Hands zoom in, 2. Hands fade out, 3. Hero Text zooms in from Z */}
-      <div ref={hybridRef} style={{ height: '220vh', position: 'relative' }}>
+      {/* Cinematic Hand Animation + Hero Text reveal */}
+      <div ref={hybridRef} style={{ height: '300vh', position: 'relative' }}>
         <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', perspective: '1200px' }}>
 
-          <motion.div style={{ opacity: heroOpacity, position: 'absolute', inset: 0 }}>
-            <section className="hero-immersion" id="hero-immersion" data-testid="hero-section" style={{ height: '100vh' }}>
-              <div className="hero-stage">
-                <HeroScene />
-                <div className="hero-grain"></div>
-                <div className="hero-overlay"></div>
-                <div className="hero-foot">
-                  <span data-testid="hero-scroll-label">Scroll to begin</span>
-                  <span>© ASCENXION 2026</span>
-                  <span>AI systems for the ambitious</span>
-                </div>
+          {/* 3D Hands layer */}
+          <section className="hero-immersion" id="hero-immersion" data-testid="hero-section" style={{ height: '100vh' }}>
+            <div className="hero-stage">
+              <HeroScene />
+              <div className="hero-grain"></div>
+              <div className="hero-overlay"></div>
+              <div className="hero-foot">
+                <span data-testid="hero-scroll-label">Scroll to begin</span>
+                <span>© ASCENXION 2026</span>
+                <span>AI systems for the ambitious</span>
               </div>
-            </section>
-          </motion.div>
+            </div>
+          </section>
 
-          <motion.div style={{ scale: statementScale, opacity: statementOpacity, filter: statementFilter, position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <div className="hero-headline" style={{ position: 'relative', top: 'auto', left: 'auto', transform: 'none', width: '100%', padding: '0 10vw', textAlign: 'center' }}>
+          {/* Hero text — pushes through from deep Z as hands close */}
+          <motion.div style={{
+            scale: statementScale,
+            opacity: statementOpacity,
+            translateZ: statementZ,
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            pointerEvents: 'none',
+            zIndex: 10
+          }}>
+            <div className="hero-headline" style={{ position: 'relative', transform: 'none', maxWidth: '700px', width: '100%', textAlign: 'center' }}>
               <p className="eyebrow" data-testid="hero-eyebrow">Automation + websites + AI / 2026</p>
               <h1 data-testid="hero-heading">We build things<br /><em>that grow your business.</em></h1>
-              <p className="hero-sub" data-testid="hero-description" style={{ margin: '28px auto 0' }}>Smart automation, websites that actually sell, and AI that handles your customers — so you can focus on the work that matters.</p>
+              <p className="hero-sub" data-testid="hero-description" style={{ margin: '28px auto 0', maxWidth: '400px' }}>Smart automation, websites that actually sell, and AI that handles your customers — so you can focus on the work that matters.</p>
             </div>
           </motion.div>
 
